@@ -16,7 +16,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     /// - Parameter completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcInfoResponseProtocol` and an optional `EosioError`.
     public func getInfoBase(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
         guard let client = client else { return }
-        let _ = client.get("https://wax.greymass.com/v1/chain/get_info/").map { response in
+        let _ = client.get("https://wax.greymass.com/v1/chain/get_info").map { response in
             let value = try! response.content.decode(EosioRpcInfoResponse.self)
             completion(EosioResult(success: value, failure: nil)!)
         }
