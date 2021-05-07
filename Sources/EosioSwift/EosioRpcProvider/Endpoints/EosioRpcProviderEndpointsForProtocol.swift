@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Vapor
 
 // MARK: - RPC methods used by `EosioTransaction`. These force conformance only to the protocols, not the entire response structs.
 extension EosioRpcProvider: EosioRpcProviderProtocol {
@@ -28,11 +29,17 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     ///   - requestParameters: An `EosioRpcBlockRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcBlockResponseProtocol` and an optional `EosioError`.
     public func getBlockInfoBase(requestParameters: EosioRpcBlockInfoRequest, completion: @escaping (EosioResult<EosioRpcBlockInfoResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_block", requestParameters: requestParameters) {(result: EosioRpcBlockResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+        guard let client = client else { return }
+        let _ = client.post("https://wax.greymass.com/v1/chain/get_block", beforeSend: { req in
+            struct RequestStruct: Content { let block_num_or_id: UInt64 }
+            
+            req.content.encode(RequestStruct(block_num_or_id: requestParameters.blockNum))
+        }).map { response in
+            let value = try! response.content.decode(EosioRpcBlockInfoResponse.self)
+            completion(EosioResult(success: value, failure: nil)!)
         }
     }
-
+    
     /// Call `chain/get_raw_abi`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
     ///
     /// - Parameters:
