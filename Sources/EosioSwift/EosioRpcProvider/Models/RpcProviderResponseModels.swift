@@ -89,7 +89,7 @@ public struct EosioRpcInfoResponse: EosioRpcInfoResponseProtocol, EosioRpcRespon
 }
 
 /// Response struct for the `get_block` RPC endpoint.
-public struct EosioRpcBlockResponse: EosioRpcResponseProtocol, Decodable {
+public struct EosioRpcBlockResponse: EosioRpcBlockInfoResponseProtocol, EosioRpcResponseProtocol, Decodable {
     public var _rawResponse: Any?
     public let timestamp: String
     public let producer: String
