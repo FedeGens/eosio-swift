@@ -185,7 +185,6 @@ public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, Eosi
     public let producerSignature: String
     public let id: String
     public let blockNum: EosioUInt64
-    public let refBlockNum: EosioUInt64?
     public let refBlockPrefix: EosioUInt64
 
     enum CodingKeys: String, CodingKey {
@@ -199,14 +198,13 @@ public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, Eosi
         case producerSignature = "producer_signature"
         case id
         case blockNum = "block_num"
-        case refBlockNum = "ref_block_num"
         case refBlockPrefix = "ref_block_prefix"
     }
 
     public init(timestamp: String, producer: String = "", confirmed: UInt = 0, previous: String = "", transactionMroot: String = "",
                 actionMroot: String = "", scheduleVersion: UInt = 0,
                 producerSignature: String = "",
-                id: String, blockNum: EosioUInt64, refBlockNum: EosioUInt64, refBlockPrefix: EosioUInt64) {
+                id: String, blockNum: EosioUInt64, refBlockPrefix: EosioUInt64) {
         self.timestamp = timestamp
         self.producer = producer
         self.confirmed = confirmed
@@ -217,7 +215,6 @@ public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, Eosi
         self.producerSignature = producerSignature
         self.id = id
         self.blockNum = blockNum
-        self.refBlockNum = refBlockNum
         self.refBlockPrefix = refBlockPrefix
     }
 
@@ -234,7 +231,6 @@ public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, Eosi
         producerSignature = try container.decodeIfPresent(String.self, forKey: .producerSignature) ?? ""
         id = try container.decode(String.self, forKey: .id)
         blockNum = try container.decode(EosioUInt64.self, forKey: .blockNum)
-        refBlockNum = try container.decode(EosioUInt64.self, forKey: .refBlockNum)
         refBlockPrefix = try container.decode(EosioUInt64.self, forKey: .refBlockPrefix)
     }
 
