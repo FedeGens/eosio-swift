@@ -15,9 +15,14 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     ///
     /// - Parameter completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcInfoResponseProtocol` and an optional `EosioError`.
     public func getInfoBase(completion: @escaping (EosioResult<EosioRpcInfoResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_info", requestParameters: nil) {(result: EosioRpcInfoResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+        var request = URLRequest(url: URL(string:"https://wax.greymass.com/v1/chain/get_info/")!)
+        request.httpMethod = "POST"
+        let session = URLSession()
+        session.dataTask(with: request) { Data, response, error in
+            completion(EosioResult(success: nil, failure: nil)!)
         }
+        let task = URLSession().dataTask(with: request)
+        task.resume()
     }
 
     /// Call `chain/get_block_info`. This method is called by `EosioTransaction`, as it only enforces the response protocol, not the entire response struct.
