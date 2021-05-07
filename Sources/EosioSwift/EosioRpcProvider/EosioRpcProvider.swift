@@ -338,18 +338,14 @@ public class EosioRpcProvider {
             return Promise(error: error)
         }
         
-        return
-            firstly {
-                buildRequest(rpc: rpc, endpoint: endpoint, requestParameters: requestParameters)
-            }
-            .then {
-                URLSession.shared.dataTask(.promise, with: $0).validate()
-            }.then { (data, _) in
-                self.decodeResponse(data: data)
-            }
+        let url = buildRequest(rpc: rpc, endpoint: endpoint, requestParameters: requestParameters)
+        
+        return URLSession.shared.dataTask(.promise, with: url).then { (data, _) in
+            self.decodeResponse(data: data)
+        }
     }
     
-    private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
+    private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> URLRequest {
         let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -362,10 +358,9 @@ public class EosioRpcProvider {
                 request.httpBody = jsonData
             } catch let error {
                 let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)
-                return Promise(error: eosioError)
             }
         }
-        return Promise.value(request)
+        return request
     }
 
     private func decodeResponse<T: Decodable & EosioRpcResponseProtocol>(data: Data) -> Promise<T> {
