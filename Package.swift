@@ -6,8 +6,7 @@ import PackageDescription
 let package = Package(
     name: "EosioSwift",
     platforms: [
-        .iOS(.v12),
-        .macOS(.v10_14)
+        .macOS(.v10_15)
     ],
     products: [
         .library(
@@ -33,7 +32,7 @@ let package = Package(
         .package(name: "PMKFoundation", url: "https://github.com/PromiseKit/Foundation", from: "3.0.0"),
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs", from: "9.0.0"),
         .package(url: "https://github.com/realm/SwiftLint", from: "0.39.1"),
-        .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.0.0")
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
     ],
     targets: [
         .target(
@@ -42,7 +41,7 @@ let package = Package(
                 "PromiseKit",
                 "PMKFoundation",
                 "BigInt",
-                .product(name: "AsyncHTTPClient", package: "async-http-client")
+                .product(name: "Vapor", package: "vapor"),
             ],
             path: "Sources/EosioSwift"
         ),

@@ -8,7 +8,7 @@
 
 import Foundation
 import PromiseKit
-import AsyncHTTPClient
+import Vapor
 #if SWIFT_PACKAGE
 import PMKFoundation
 #endif
@@ -27,7 +27,7 @@ public class EosioRpcProvider {
     }
 
     /// The blockchain ID that all RPC calls for an active instance of EosioRpcProvider should be interacting with.
-    public var client: HTTPClient?
+    public var client: Client?
     public var chainId: String?
     private var originalChainId: String?
     private var origEndpoints: [URL]
@@ -42,7 +42,7 @@ public class EosioRpcProvider {
     ///   - endpoint: A node URL.
     ///   - retries: Number of times to retry an endpoint before failing (default is 3 tries).
     ///   - delayBeforeRetry: Number of seconds to wait between each retry (default is 1 second).
-    public convenience init(endpoint: URL, retries: Int = 3, delayBeforeRetry: Int = 1, client: HTTPClient? = nil) {
+    public convenience init(endpoint: URL, retries: Int = 3, delayBeforeRetry: Int = 1, client: Client? = nil) {
         self.init(endpoints: [endpoint], retries: retries, delayBeforeRetry: delayBeforeRetry, client: client)
     }
 
@@ -51,7 +51,7 @@ public class EosioRpcProvider {
     ///   - endpoints: A list of node URLs.
     ///   - retries: Number of times to retry an endpoint before failing over to the next (default is 3 tries).
     ///   - delayBeforeRetry: Number of seconds to wait between each retry (default is 1 second).
-    public init(endpoints: [URL], retries: Int = 3, delayBeforeRetry: Int = 1, client: HTTPClient? = nil) {
+    public init(endpoints: [URL], retries: Int = 3, delayBeforeRetry: Int = 1, client: Client? = nil) {
         assert(endpoints.count > 0, "Assertion Failure: The endpoints array cannot be empty.")
         self.origEndpoints = endpoints
         self.retries = retries
