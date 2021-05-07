@@ -33,7 +33,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
         let _ = client.post("https://wax.greymass.com/v1/chain/get_block", beforeSend: { req in
             struct RequestStruct: Content { let block_num_or_id: UInt64 }
             
-            req.content.encode(RequestStruct(block_num_or_id: requestParameters.blockNum))
+            try! req.content.encode(RequestStruct(block_num_or_id: requestParameters.blockNum))
         }).map { response in
             let value = try! response.content.decode(EosioRpcBlockInfoResponse.self)
             completion(EosioResult(success: value, failure: nil)!)
