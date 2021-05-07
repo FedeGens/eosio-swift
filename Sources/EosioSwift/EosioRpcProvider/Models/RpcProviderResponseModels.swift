@@ -185,7 +185,7 @@ public struct EosioRpcBlockInfoResponse: EosioRpcBlockInfoResponseProtocol, Eosi
     public let producerSignature: String
     public let id: String
     public let blockNum: EosioUInt64
-    public let refBlockNum: EosioUInt64
+    public let refBlockNum: EosioUInt64?
     public let refBlockPrefix: EosioUInt64
 
     enum CodingKeys: String, CodingKey {
