@@ -347,22 +347,24 @@ public class EosioRpcProvider {
     }
 
     private func buildRequest(rpc: String, endpoint: URL, requestParameters: Encodable?) -> Promise<URLRequest> {
-        let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        if let requestParameters = requestParameters {
-            do {
-                let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
-                #if DEBUG
-                print("Request JSON: \(String(data: jsonData, encoding: .utf8) ?? "Could not convert from Data to String.")")
-                #endif
-                request.httpBody = jsonData
-            } catch let error {
-                let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)
-                return Promise(error: eosioError)
+        return Promise<URLRequest> { resolve in
+            let url = URL(string: "v1/" + rpc, relativeTo: endpoint)!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            if let requestParameters = requestParameters {
+                do {
+                    let jsonData = try requestParameters.toJsonData(convertToSnakeCase: true)
+                    #if DEBUG
+                    print("Request JSON: \(String(data: jsonData, encoding: .utf8) ?? "Could not convert from Data to String.")")
+                    #endif
+                    request.httpBody = jsonData
+                } catch let error {
+                    let eosioError = EosioError(.rpcProviderFatalError, reason: "Error while encoding request parameters.", originalError: error as NSError)
+                    resolve.reject(error)
+                }
             }
+            return resolve.fulfill(request)
         }
-        return Promise.value(request)
     }
 
     private func decodeResponse<T: Decodable & EosioRpcResponseProtocol>(data: Data) -> Promise<T> {
