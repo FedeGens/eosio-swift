@@ -43,31 +43,21 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
         let accounts = Array(Set(accounts)) // remove any duplicate account names
         var responseAbis = [EosioName: Data]()
         var optionalError: EosioError?
-        let dispatchGroup = DispatchGroup()
-
-        for account in accounts {
-            dispatchGroup.enter()
-            getAbi(chainId: chainId, account: account) { (response) in
-                switch response {
-                case .success(let abi):
-                    responseAbis[account] = abi
-                    dispatchGroup.leave()
-                case .failure(let error):
-                    if optionalError == nil { optionalError = error }
-                    dispatchGroup.leave()
-                }
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            if let validError = optionalError {
-                completion(.failure(validError))
-            } else {
+        
+        let account = accounts.first!
+        
+        getAbi(chainId: chainId, account: account) { (response) in
+            switch response {
+            case .success(let abi):
+                responseAbis[account] = abi
                 completion(.success(responseAbis))
+            case .failure(let error):
+                if optionalError == nil { optionalError = error }
+                completion(.failure(error))
             }
         }
     }
-
+    
     /// Get the ABI as `Data` for the specified account name.
     ///
     /// - Parameters:
