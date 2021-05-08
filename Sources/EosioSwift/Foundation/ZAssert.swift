@@ -15,8 +15,8 @@ func ZAssert(_ test: Bool, message: String) {
 
     #if DEBUG
     print(message)
-    let exception = NSException()
-    exception.raise()
+//    let exception = NSException()
+//    exception.raise()
     #else
     NSLog(message)
     return

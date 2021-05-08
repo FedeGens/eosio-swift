@@ -70,12 +70,12 @@ public final class EosioSoftkeySignatureProvider: EosioSignatureProviderProtocol
 
             for eosioPublicKey in request.publicKeys {
                 let compressedPublicKey = try Data(eosioPublicKey: eosioPublicKey)
-                objc_sync_enter(lock)
+//                objc_sync_enter(lock)
                 guard let key = keyPairs[compressedPublicKey] else {
                     response.error = EosioError(.keyManagementError, reason: "No private key available for \(eosioPublicKey)")
                     return completion(response)
                 }
-                objc_sync_exit(lock)
+//                objc_sync_exit(lock)
                 let chainIdData = try Data(hex: request.chainId)
                 var contextFreeDataHash = Data(repeating: 0, count: 32)
                 if request.serializedContextFreeData.count > 0 {
@@ -102,11 +102,11 @@ public final class EosioSoftkeySignatureProvider: EosioSignatureProviderProtocol
     /// - Parameter completion: Calls the completion with an `EosioAvailableKeysResponse` stuct containing an optional array of available public keys in `String` format.
     public func getAvailableKeys(completion: @escaping (EosioAvailableKeysResponse) -> Void) {
         var response = EosioAvailableKeysResponse()
-        objc_sync_enter(lock)
+//        objc_sync_enter(lock)
         response.keys = Array(keyPairs.values).compactMap({ (key) -> String? in
             return key.eosioPublicKey
         })
-        objc_sync_exit(lock)
+//        objc_sync_exit(lock)
         completion(response)
     }
 }

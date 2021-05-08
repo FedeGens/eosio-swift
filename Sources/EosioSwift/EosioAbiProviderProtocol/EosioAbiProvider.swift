@@ -27,9 +27,9 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
     }
 
     private func cacheAbi(_ abi: Data, chainId: String, account: EosioName) {
-        objc_sync_enter(self.lock)
+//        objc_sync_enter(self.lock)
         abis[chainId + account.string] = abi
-        objc_sync_exit(self.lock)
+//        objc_sync_exit(self.lock)
     }
 
     /// Get all ABIs for the given accounts, keyed by account name.
