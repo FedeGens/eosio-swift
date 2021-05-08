@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CommonCrypto
+import Crypto
 
 public extension Data {
 
@@ -93,12 +93,14 @@ public extension Data {
 
     /// Returns the SHA256 hash of the data.
     var sha256: Data {
-        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        self.withUnsafeBytes { ptr in
-            guard let baseAddress = ptr.baseAddress else { return }
-            _ = CC_SHA256(baseAddress, CC_LONG(self.count), &hash)
-        }
-        return Data(hash)
+        let digest = SHA256.hash(data: self)
+        return Data(digest)
+//        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//        self.withUnsafeBytes { ptr in
+//            guard let baseAddress = ptr.baseAddress else { return }
+//            _ = CC_SHA256(baseAddress, CC_LONG(self.count), &hash)
+//        }
+//        return Data(hash)
     }
 
     /// Returns the current Data as a base58 encoded String.
