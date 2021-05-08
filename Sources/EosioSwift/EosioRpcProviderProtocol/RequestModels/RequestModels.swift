@@ -10,7 +10,7 @@ import Vapor
 
 /// Request struct for requests to `v1/chain/get_required_keys`.
 /// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
-public struct EosioRpcRequiredKeysRequest: Content {
+public struct EosioRpcRequiredKeysRequest: Codable {
     /// The transaction, as an `EosioTransaction`.
     public var transaction: EosioTransaction
     /// All public keys available for signing.

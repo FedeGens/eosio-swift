@@ -65,7 +65,7 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     public func getRequiredKeysBase(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
         guard let client = client else { return }
         let _ = client.post("https://wax.greymass.com/v1/chain/get_required_keys", beforeSend: { req in
-            try! req.content.encode(requestParameters)
+            req.body = ByteBuffer.init(data: requestParameters.toJsonData())
         }).map { response in
             let value = try! response.content.decode(EosioRpcRequiredKeysResponse.self)
             completion(EosioResult(success: value, failure: nil)!)
