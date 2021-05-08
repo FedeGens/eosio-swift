@@ -46,8 +46,14 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     ///   - requestParameters: An `EosioRpcRawAbiRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcRawAbiResponseProtocol` and an optional `EosioError`.
     public func getRawAbiBase(requestParameters: EosioRpcRawAbiRequest, completion: @escaping (EosioResult<EosioRpcRawAbiResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_raw_abi", requestParameters: requestParameters) {(result: EosioRpcRawAbiResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+        guard let client = client else { return }
+        let _ = client.post("https://wax.greymass.com/v1/chain/get_raw_abi", beforeSend: { req in
+            struct RequestStruct: Content { let account_name: String }
+            
+            try! req.content.encode(RequestStruct(account_name: requestParameters.accountName.string))
+        }).map { response in
+            let value = try! response.content.decode(EosioRpcRawAbiResponse.self)
+            completion(EosioResult(success: value, failure: nil)!)
         }
     }
 
@@ -57,8 +63,12 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     ///   - requestParameters: An `EosioRpcRequiredKeysRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcRequiredKeysResponseProtocol` and an optional `EosioError`.
     public func getRequiredKeysBase(requestParameters: EosioRpcRequiredKeysRequest, completion: @escaping (EosioResult<EosioRpcRequiredKeysResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_required_keys", requestParameters: requestParameters) {(result: EosioRpcRequiredKeysResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+        guard let client = client else { return }
+        let _ = client.post("https://wax.greymass.com/v1/chain/get_required_keys", beforeSend: { req in
+            try! req.content.encode(requestParameters)
+        }).map { response in
+            let value = try! response.content.decode(EosioRpcRequiredKeysResponse.self)
+            completion(EosioResult(success: value, failure: nil)!)
         }
     }
 
@@ -68,8 +78,12 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     ///   - requestParameters: An `EosioRpcPushTransactionRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcTransactionResponseProtocol` and an optional `EosioError`.
     public func pushTransactionBase(requestParameters: EosioRpcPushTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/push_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+        guard let client = client else { return }
+        let _ = client.post("https://wax.greymass.com/v1/chain/push_transaction", beforeSend: { req in
+            try! req.content.encode(requestParameters)
+        }).map { response in
+            let value = try! response.content.decode(EosioRpcTransactionResponse.self)
+            completion(EosioResult(success: value, failure: nil)!)
         }
     }
 
@@ -79,8 +93,12 @@ extension EosioRpcProvider: EosioRpcProviderProtocol {
     ///   - requestParameters: An `EosioRpcSendTransactionRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of a response conforming to `EosioRpcTransactionResponseProtocol` and an optional `EosioError`.
     public func sendTransactionBase(requestParameters: EosioRpcSendTransactionRequest, completion: @escaping (EosioResult<EosioRpcTransactionResponseProtocol, EosioError>) -> Void) {
-        getResource(rpc: "chain/send_transaction", requestParameters: requestParameters) {(result: EosioRpcTransactionResponse?, error: EosioError?) in
-            completion(EosioResult(success: result, failure: error)!)
+        guard let client = client else { return }
+        let _ = client.post("https://wax.greymass.com/v1/chain/send_transaction", beforeSend: { req in
+            try! req.content.encode(requestParameters)
+        }).map { response in
+            let value = try! response.content.decode(EosioRpcTransactionResponse.self)
+            completion(EosioResult(success: value, failure: nil)!)
         }
     }
 }

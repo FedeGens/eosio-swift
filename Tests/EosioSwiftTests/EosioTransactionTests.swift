@@ -776,7 +776,6 @@ class RPCProviderMock: EosioRpcProviderProtocol {
         producerSignature: "signature",
         id: "klj",
         blockNum: EosioUInt64.uint64(89),
-        refBlockNum: EosioUInt64.uint64(89),
         refBlockPrefix: EosioUInt64.uint64(0980)
     )
 

@@ -6,11 +6,11 @@
 //  Copyright (c) 2017-2019 block.one and its contributors. All rights reserved.
 //
 
-import Foundation
+import Vapor
 
 /// Request struct for requests to `v1/chain/get_required_keys`.
 /// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
-public struct EosioRpcRequiredKeysRequest: Codable {
+public struct EosioRpcRequiredKeysRequest: Content {
     /// The transaction, as an `EosioTransaction`.
     public var transaction: EosioTransaction
     /// All public keys available for signing.
@@ -30,7 +30,7 @@ public struct EosioRpcRequiredKeysRequest: Codable {
 
 /// Request struct for requests to `v1/chain/push_transaction`.
 /// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
-public struct EosioRpcPushTransactionRequest: Codable {
+public struct EosioRpcPushTransactionRequest: Content {
     /// Array of signatures as Strings.
     public var signatures = [String]()
     /// Compression

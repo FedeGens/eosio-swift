@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Vapor
 
 /// Base request struct aliased by request types for `get_account`, `get_abi`, `get_raw_code_and_abi`, and `get_code` requests.
 public struct EosioAccountInfo: Codable {
@@ -312,7 +313,7 @@ public struct EosioRpcHistoryControlledAccountsRequest: Codable {
 }
 
 /// The request struct for `send_transaction` RPC requests.
-public struct EosioRpcSendTransactionRequest: Codable {
+public struct EosioRpcSendTransactionRequest: Content {
     /// Array of signatures as Strings.
     public var signatures = [String]()
     /// Compression
