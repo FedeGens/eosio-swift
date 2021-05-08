@@ -322,6 +322,12 @@ public struct EosioRpcSendTransactionRequest: Content {
     public var packedContextFreeData = ""
     /// The serialized transaction as a hex String.
     public var packedTrx = ""
+    
+    enum CodingKeys: String, CodingKey {
+        case signatures, compression
+        case packedContextFreeData = "packed_context_free_data"
+        case packedTrx = "packed_trx"
+    }
 
     /// Initialize an `EosioRpcSendTransactionRequest`.
     public init(signatures: [String] = [], compression: Int = 0, packedContextFreeData: String = "", packedTrx: String = "") {

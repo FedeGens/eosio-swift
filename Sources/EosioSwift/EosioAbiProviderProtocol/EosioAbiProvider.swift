@@ -45,7 +45,7 @@ public class EosioAbiProvider: EosioAbiProviderProtocol {
         var optionalError: EosioError?
         
         let account = accounts.first!
-        
+    
         getAbi(chainId: chainId, account: account) { (response) in
             switch response {
             case .success(let abi):
