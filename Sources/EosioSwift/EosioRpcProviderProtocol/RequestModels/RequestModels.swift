@@ -81,7 +81,7 @@ public struct EosioRpcBlockRequest: Codable {
 /// To be compatible with EOSIO SDK for Swift, RPC endpoints must, at a minimum, accept these parameters.
 public struct EosioRpcBlockInfoRequest: Codable {
     enum CodingKeys: String, CodingKey {
-        case blockNum = "block_num"
+        case blockNum = "block_num_or_id"
     }
     /// Block number to retrieve
     public var blockNum: UInt64

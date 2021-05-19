@@ -40,7 +40,7 @@ extension EosioRpcProvider {
     ///   - requestParameters: An `EosioRpcBlockInfoRequest`.
     ///   - completion: Called with the response, as an `EosioResult` consisting of an `EosioRpcBlockInfoResponse` and an optional `EosioError`.
     public func getBlockInfo(requestParameters: EosioRpcBlockInfoRequest, completion: @escaping (EosioResult<EosioRpcBlockInfoResponse, EosioError>) -> Void) {
-        getResource(rpc: "chain/get_block_info", requestParameters: requestParameters) {(result: EosioRpcBlockInfoResponse?, error: EosioError?) in
+        getResource(rpc: "chain/get_block", requestParameters: requestParameters) {(result: EosioRpcBlockInfoResponse?, error: EosioError?) in
             completion(EosioResult(success: result, failure: error)!)
         }
     }

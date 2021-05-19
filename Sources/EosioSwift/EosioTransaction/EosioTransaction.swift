@@ -66,9 +66,9 @@ public class EosioTransaction: Codable {
     /// Transaction property: Transaction Extensions.
     public var transactionExtensions = [String]()
     /// Transaction data serialized into a binary representation in preparation for broadcast.
-    public private(set) var serializedTransaction: Data?
+    public var serializedTransaction: Data?
     /// Array of signatures.
-    public private(set) var signatures: [String]?
+    public var signatures: [String]?
     /// Transaction ID.
     public private(set) var transactionId: String?
 
