@@ -62,7 +62,7 @@ public extension String {
 
     /// - Returns: `true` if a string is a valid EOSIO name.
     var isValidEosioName: Bool {
-        let pattern = "^[a-z1-5]{1,2}$|^[a-z1-5]{1}([a-z1-5\\.]){1,10}[a-z1-5]{1}$"
+        let pattern = "^[a-z1-5]{1,2}$|^[a-z1-5]{1}|^[.]{1,2}([a-z1-5\\.]){1,10}[a-z1-5]{1}$"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return false }
         let match = regex.matches(in: self, options: [], range: NSRange(location: 0, length: self.count))
         return match.count > 0
